@@ -78,7 +78,8 @@ sub infill_offset {
     my $offset = 0;
     if (defined $self->layer_id) {
         my $layer_num = $self->layer_id / $surface->thickness_layers;
-        my $offset = $self->offset->[$layer_num % @{$self->offset}];
+        my $idx = $layer_num % @{$self->offset};
+        $offset = $self->offset->[$idx];
     }
     return $offset;
 }
