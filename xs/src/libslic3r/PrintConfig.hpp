@@ -13,7 +13,7 @@ enum GCodeFlavor {
 };
 
 enum InfillPattern {
-    ipRectilinear, ipAlignedRectilinear, ipGrid, ipLine, ipConcentric, ipHoneycomb, ip3DHoneycomb,
+    ipRectilinear, ipAlignedRectilinear, ipAlignedOffsetRectilinear, ipGrid, ipLine, ipConcentric, ipHoneycomb, ip3DHoneycomb,
     ipHilbertCurve, ipArchimedeanChords, ipOctagramSpiral,
 };
 
@@ -42,6 +42,7 @@ template<> inline t_config_enum_values ConfigOptionEnum<InfillPattern>::get_enum
     t_config_enum_values keys_map;
     keys_map["rectilinear"]         = ipRectilinear;
     keys_map["alignedrectilinear"]  = ipAlignedRectilinear;
+    keys_map["alignedoffsetrectilinear"]  = ipAlignedOffsetRectilinear;
     keys_map["grid"]                = ipGrid;
     keys_map["line"]                = ipLine;
     keys_map["concentric"]          = ipConcentric;
