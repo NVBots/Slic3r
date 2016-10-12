@@ -157,12 +157,14 @@ PrintConfigDef::PrintConfigDef()
     def->enum_keys_map = ConfigOptionEnum<InfillPattern>::get_enum_values();
     def->enum_values.push_back("rectilinear");
     def->enum_values.push_back("alignedrectilinear");
+    def->enum_values.push_back("alignedoffsetrectilinear");
     def->enum_values.push_back("concentric");
     def->enum_values.push_back("hilbertcurve");
     def->enum_values.push_back("archimedeanchords");
     def->enum_values.push_back("octagramspiral");
     def->enum_labels.push_back("Rectilinear");
     def->enum_labels.push_back("Aligned Rectilinear");
+    def->enum_labels.push_back("Aligned Offset Rectilinear");
     def->enum_labels.push_back("Concentric");
     def->enum_labels.push_back("Hilbert Curve");
     def->enum_labels.push_back("Archimedean Chords");
@@ -366,6 +368,7 @@ PrintConfigDef::PrintConfigDef()
     def->enum_keys_map = ConfigOptionEnum<InfillPattern>::get_enum_values();
     def->enum_values.push_back("rectilinear");
     def->enum_values.push_back("alignedrectilinear");
+    def->enum_values.push_back("alignedoffsetrectilinear");
     def->enum_values.push_back("grid");
     def->enum_values.push_back("line");
     def->enum_values.push_back("concentric");
@@ -376,6 +379,7 @@ PrintConfigDef::PrintConfigDef()
     def->enum_values.push_back("octagramspiral");
     def->enum_labels.push_back("Rectilinear");
     def->enum_labels.push_back("AlignedRectilinear");
+    def->enum_labels.push_back("AlignedOffsetRectilinear");
     def->enum_labels.push_back("Grid");
     def->enum_labels.push_back("Line");
     def->enum_labels.push_back("Concentric");

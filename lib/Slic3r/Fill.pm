@@ -10,6 +10,7 @@ use Slic3r::Fill::Honeycomb;
 use Slic3r::Fill::PlanePath;
 use Slic3r::Fill::Rectilinear;
 use Slic3r::Fill::AlignedRectilinear;
+use Slic3r::Fill::AlignedOffsetRectilinear;
 use Slic3r::Flow ':roles';
 use Slic3r::Geometry qw(X Y PI scale chained_path deg2rad);
 use Slic3r::Geometry::Clipper qw(union union_ex diff diff_ex intersection_ex offset offset2);
@@ -22,6 +23,7 @@ has 'fillers'   => (is => 'rw', default => sub { {} });
 our %FillTypes = (
     archimedeanchords   => 'Slic3r::Fill::ArchimedeanChords',
     alignedrectilinear  => 'Slic3r::Fill::AlignedRectilinear',
+    alignedoffsetrectilinear  => 'Slic3r::Fill::AlignedOffsetRectilinear',
     rectilinear         => 'Slic3r::Fill::Rectilinear',
     grid                => 'Slic3r::Fill::Grid',
     flowsnake           => 'Slic3r::Fill::Flowsnake',

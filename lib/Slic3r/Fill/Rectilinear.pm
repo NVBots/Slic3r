@@ -44,11 +44,14 @@ sub fill_surface {
         ));
     }
     
+    # Offset
+    my $offset = $self->infill_offset($surface) * $self->_line_spacing;
+    my $spacing = $self->_line_spacing;
     # generate the basic pattern
     my $x_max = $bounding_box->x_max + scaled_epsilon;
     my @lines  = ();
     for (my $x = $bounding_box->x_min; $x <= $x_max; $x += $self->_line_spacing) {
-        push @lines, $self->_line($#lines, $x, $bounding_box->y_min, $bounding_box->y_max);
+        push @lines, $self->_line($#lines, $x+$offset, $bounding_box->y_min, $bounding_box->y_max);
     }
     if ($self->horizontal_lines) {
         my $y_max = $bounding_box->y_max + scaled_epsilon;
@@ -171,5 +174,14 @@ use Moo;
 extends 'Slic3r::Fill::Rectilinear';
 
 sub angles () { [0, 0] }
+sub offset () { [0, 0] }
+
+
+package Slic3r::Fill::AlignedOffsetRectilinear;
+use Moo;
+extends 'Slic3r::Fill::Rectilinear';
+
+sub angles () { [0, 0] }
+sub offset () { [0, 0.5] }
 
 1;

@@ -29,6 +29,7 @@ use Moo::Role;
 use Slic3r::Geometry qw(PI rad2deg);
 
 sub angles () { [0, PI/2] }
+sub offset () { [0] }
 
 sub infill_direction {
     my $self = shift;
@@ -63,6 +64,24 @@ sub infill_direction {
     $rotate[0] += PI/2;
     $shift->rotate(@rotate);
     return [\@rotate, $shift];
+}
+
+sub infill_offset {
+    my $self = shift;
+    my ($surface) = @_;
+
+    if (!defined $self->offset) {
+        warn "Using undefined infill offset";
+        $self->offset(0);
+    }
+
+    my $offset = 0;
+    if (defined $self->layer_id) {
+        my $layer_num = $self->layer_id / $surface->thickness_layers;
+        my $idx = $layer_num % @{$self->offset};
+        $offset = $self->offset->[$idx];
+    }
+    return $offset;
 }
 
 # this method accepts any object that implements rotate() and translate()
