@@ -23,7 +23,7 @@ has 'fillers'   => (is => 'rw', default => sub { {} });
 our %FillTypes = (
     archimedeanchords   => 'Slic3r::Fill::ArchimedeanChords',
     alignedrectilinear  => 'Slic3r::Fill::AlignedRectilinear',
-    alignedrectilinear  => 'Slic3r::Fill::AlignedOffsetRectilinear',
+    alignedoffsetrectilinear  => 'Slic3r::Fill::AlignedOffsetRectilinear',
     rectilinear         => 'Slic3r::Fill::Rectilinear',
     grid                => 'Slic3r::Fill::Grid',
     flowsnake           => 'Slic3r::Fill::Flowsnake',

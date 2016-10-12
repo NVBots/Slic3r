@@ -179,7 +179,7 @@ sub offset () { [0, 0] }
 
 package Slic3r::Fill::AlignedOffsetRectilinear;
 use Moo;
-extends 'Slic3r::Fill::AlignedRectilinear';
+extends 'Slic3r::Fill::Rectilinear';
 
 sub angles () { [0, 0] }
 sub offset () { [0, 0.5] }
