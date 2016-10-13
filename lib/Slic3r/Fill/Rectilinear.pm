@@ -14,9 +14,9 @@ use Slic3r::Geometry::Clipper qw(intersection_pl);
 
 sub horizontal_lines { 0 }
 
-sub start_x_per_layer () { [1, 1, 0, 0] }
-sub start_y_per_layer () { [0, 1, 1, 0] }
-sub loop_mult_per_layer () { [-1, -1, 1, 1] }
+sub start_x_per_layer () { (0, 1, 0, 1) }
+sub start_y_per_layer () { (1, 1, 1, 1) }
+sub loop_mult_per_layer () { (1, -1, 1, -1) }
 
 sub fill_surface {
     my $self = shift;
@@ -61,14 +61,9 @@ sub fill_surface {
 
     my $layer_key = $layer_num % 4;
     
-    # my @start_x_per_layer = $self->start_x_per_layer;
-    # my @start_y_per_layer   = $self->start_y_per_layer;
-    # my @loop_mult_per_layer = $self->loop_mult_per_layer;
-    
-    my @start_x_per_layer = (1, 1, 0, 0);
-    my @start_y_per_layer   = (0, 1, 1, 0);
-    my @loop_mult_per_layer = (-1, -1, 1, 1);
-    
+    my @start_x_per_layer = $self->start_x_per_layer;
+    my @start_y_per_layer   = $self->start_y_per_layer;
+    my @loop_mult_per_layer = $self->loop_mult_per_layer;    
 
     my $start_x = $bounding_box->x_min;
     my $end_x = $x_max;
@@ -223,8 +218,8 @@ extends 'Slic3r::Fill::Rectilinear';
 
 sub angles () { [0, 0] }
 sub offset () { [0, 0.5] }
-sub start_x_per_layer () { [1, 1, 0, 0] }
-sub start_y_per_layer () { [0, 1, 1, 0] }
-sub loop_mult_per_layer () { [-1, -1, 1, 1] }
+sub start_x_per_layer () { (1, 1, 0, 0) }
+sub start_y_per_layer () { (0, 1, 1, 0) }
+sub loop_mult_per_layer () { (-1, -1, 1, 1) }
 
 1;
