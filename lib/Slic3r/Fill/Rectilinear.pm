@@ -14,6 +14,10 @@ use Slic3r::Geometry::Clipper qw(intersection_pl);
 
 sub horizontal_lines { 0 }
 
+sub start_x_per_layer () { (0, 1, 0, 1) }
+sub start_y_per_layer () { (1, 1, 1, 1) }
+sub loop_mult_per_layer () { (1, -1, 1, -1) }
+
 sub fill_surface {
     my $self = shift;
     my ($surface, %params) = @_;
@@ -44,15 +48,46 @@ sub fill_surface {
         ));
     }
     
+    my $layer_num = $self->layer_id / $surface->thickness_layers;
+
     # Offset
     my $offset = $self->infill_offset($surface) * $self->_line_spacing;
     my $spacing = $self->_line_spacing;
+
     # generate the basic pattern
     my $x_max = $bounding_box->x_max + scaled_epsilon;
     my @lines  = ();
-    for (my $x = $bounding_box->x_min; $x <= $x_max; $x += $self->_line_spacing) {
-        push @lines, $self->_line($#lines, $x+$offset, $bounding_box->y_min, $bounding_box->y_max);
+
+
+    my $layer_key = $layer_num % 4;
+    
+    my @start_x_per_layer = $self->start_x_per_layer;
+    my @start_y_per_layer   = $self->start_y_per_layer;
+    my @loop_mult_per_layer = $self->loop_mult_per_layer;    
+
+    my $start_x = $bounding_box->x_min;
+    my $end_x = $x_max;
+    if ($start_x_per_layer[$layer_key]) {
+        $start_x = $x_max;
+        $end_x = $bounding_box->x_min;
     }
+
+    my $start_y = $bounding_box->y_min;
+    my $end_y = $bounding_box->y_max;
+    if ($start_y_per_layer[$layer_key]) {
+        $start_y = $bounding_box->y_max;
+        $end_y = $bounding_box->y_min;
+    }
+
+    my $loop_mult = $loop_mult_per_layer[$layer_key];
+
+    print "layer $layer_num: start_x=$start_x start_y=$start_y loop_mult=$loop_mult\n";
+
+    for (my $x = $start_x; $x*$loop_mult <= $end_x*$loop_mult; $x += $self->_line_spacing * $loop_mult) {
+        # print "x=$x ";
+        push @lines, $self->_line($#lines, $x+$offset, $start_y, $end_y);
+    }
+    print "\n";
     if ($self->horizontal_lines) {
         my $y_max = $bounding_box->y_max + scaled_epsilon;
         for (my $y = $bounding_box->y_min; $y <= $y_max; $y += $self->_line_spacing) {
@@ -183,5 +218,8 @@ extends 'Slic3r::Fill::Rectilinear';
 
 sub angles () { [0, 0] }
 sub offset () { [0, 0.5] }
+sub start_x_per_layer () { (1, 1, 0, 0) }
+sub start_y_per_layer () { (0, 1, 1, 0) }
+sub loop_mult_per_layer () { (-1, -1, 1, 1) }
 
 1;
