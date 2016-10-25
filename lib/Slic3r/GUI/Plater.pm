@@ -1412,20 +1412,14 @@ sub update {
     my ($self, $force_autocenter) = @_;
     
     if ($Slic3r::GUI::Settings->{_}{autocenter} || $force_autocenter) {
-        print "Hello update!\n";
         my $model_object = $self->{model}->objects->[0];
-        my $x;
-        my $y;
+        my $x=0;
+        my $y=0;
         if ($model_object) {
             $x = $model_object->bounding_box->size->x / 2;
             $y = $model_object->bounding_box->size->y / 2;
-        } else {
-            $x = $self->{model}->bounding_box->center->x;
-            $y = $self->{model}->bounding_box->center->y;
         }
-        print "center: $x, $y\n";
         my $center = Slic3r::Pointf->new($x, $y);
-        print "uhh $center\n";
         $self->{model}->center_instances_around_point($center);
     }
     
