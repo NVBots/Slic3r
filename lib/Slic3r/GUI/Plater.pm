@@ -1412,7 +1412,15 @@ sub update {
     my ($self, $force_autocenter) = @_;
     
     if ($Slic3r::GUI::Settings->{_}{autocenter} || $force_autocenter) {
-        $self->{model}->center_instances_around_point($self->bed_centerf);
+        my $model_object = $self->{model}->objects->[0];
+        my $x=0;
+        my $y=0;
+        if ($model_object) {
+            $x = $model_object->bounding_box->size->x / 2;
+            $y = $model_object->bounding_box->size->y / 2;
+        }
+        my $center = Slic3r::Pointf->new($x, $y);
+        $self->{model}->center_instances_around_point($center);
     }
     
     my $running = $self->pause_background_process;
